@@ -178,6 +178,10 @@ ipc.on("project-stats", (event, visible) => {
     LiveCompiler.getStats((statsObj) => {
         
         let messageLines = [];
+        messageLines.push(i18n._("Current File:"));
+        messageLines.push(`${i18n._("Total Dialogue Lines")}: ${statsObj["currentFile"]["totalLines"]}`);
+        messageLines.push("");
+        
         messageLines.push(i18n._("Project statistics:"));
         messageLines.push("");
         
@@ -194,7 +198,7 @@ ipc.on("project-stats", (event, visible) => {
         messageLines.push(`${i18n._("Diverts")}: ${statsObj["diverts"]}`);
         messageLines.push("");
 
-        messageLines.push(i18n._("Notes: Words should be accurate. Knots include functions. Gathers and diverts may include some implicitly added ones by the compiler, for example in weave. Diverts include END and DONE."));
+        //messageLines.push(i18n._("Notes: Words should be accurate. Knots include functions. Gathers and diverts may include some implicitly added ones by the compiler, for example in weave. Diverts include END and DONE."));
 
         alert(messageLines.join("\n"));
     });
@@ -211,6 +215,8 @@ ipc.on("keyboard-shortcuts", (event, visible) => {
     messageLines.push(`${i18n._("Go to Anything")}: Ctrl+P ${i18n._("or")} Cmd+P`);
     messageLines.push("");
     messageLines.push(`${i18n._("Toggle Comment")}: Ctrl+/ ${i18n._("or")} Cmd+/`);
+    messageLines.push("");
+    messageLines.push(`${i18n._("Project Stats")}: Ctrl+T ${i18n._("or")} Cmd+T`);
     messageLines.push("");
     messageLines.push(`${i18n._("Add Multicursor Above")}: Ctrl+Alt+Up ${i18n._("or")} Ctrl+Option+Up`);
     messageLines.push("");

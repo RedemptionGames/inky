@@ -54,7 +54,8 @@ function buildCompileInstruction() {
         mainName: project.mainInk.filename(),
         updatedFiles: {},
         sessionId: `${namespace}_${sessionIdx}`,
-        namespace: namespace
+        namespace: namespace,
+        project: project,
     };
 
     project.files.forEach((inkFile) => {
@@ -391,6 +392,9 @@ ipc.on("play-evaluated-expression-error", (event, errorMessage, fromSessionId) =
 ipc.on("return-stats", (event, statsObj, fromSessionId) => {
 
     if( fromSessionId != currentStatsSessionId ) return;
+
+    statsObj["currentFile"] = {}
+    statsObj["currentFile"]["totalLines"] = project.countOpenFileLines()
     
     var callback = statsCompleteCallback;
     statsCompleteCallback = null;

@@ -247,9 +247,10 @@ function setupMenus(callbacks) {
                     click: callbacks.toggleTags
                 },
                 {
-                        label: i18n._('Word count and more'),
-                        enabled: callbacks.isFocusedWindow,
-                        click: callbacks.stats
+                    label: i18n._('Word count and more tools'),
+                    accelerator: 'CmdOrCtrl+T',
+                    enabled: callbacks.isFocusedWindow,
+                    click: callbacks.stats
                 }
             ]
         },

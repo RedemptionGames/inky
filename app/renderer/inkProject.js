@@ -534,6 +534,38 @@ InkProject.prototype.closeImmediate = function() {
     ipc.send("project-final-close");
 }
 
+InkProject.prototype.countOpenFileLines = function() {
+    function countLines(text) {
+        let regexByType = {
+            PremiumEnergyChoice: /\+\[.+\+\d].+/,
+            StandardEnergyChoice: /\+\[.+\*\d].+/,
+            NoEnergyChoice: /^\s*\+\[[^*+]+].+/,
+            CharacterName: /^\s*#(.*)/,
+            VarDeclaration: /^\s*(var|VAR)/,
+            Dialogue: /^(?!.*VAR|.*var|.*TODO)^\s*[a-zA-Z\d.]+/,
+        }
+
+        let lines = text.match(/[^\r\n]+/g);
+        if (!lines) {
+            return 0
+        }
+
+        let dialogueCount = 0
+        for (let line of lines) {
+            for (let lineType in regexByType) {
+                const regex = new RegExp(regexByType[lineType]);
+                if (regex.test(line)) {
+                    if (lineType === "Dialogue") {
+                        dialogueCount++
+                    }
+                }
+            }
+        }
+        return dialogueCount
+    }
+    return countLines(this.activeInkFile.aceDocument.getValue())
+}
+
 InkProject.prototype.inkFileWithRelativePath = function(relativePath) {
     return _.find(this.files, f => f.relativePath().replace('\\', '/') == relativePath);
 }
@@ -654,6 +686,7 @@ InkProject.setProject = function(project) {
     InkProject.currentProject = project;
     InkProject.events.newProject(project);
 }
+
 
 ipc.on("set-project-main-ink-filepath", (event, filePath) => {
     InkProject.loadProject(filePath);
