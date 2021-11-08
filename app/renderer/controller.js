@@ -208,6 +208,8 @@ ipc.on("keyboard-shortcuts", (event, visible) => {
     let messageLines = [];
     messageLines.push(i18n._("Useful Keyboard Shortcuts"));
     messageLines.push("");
+    messageLines.push(`${i18n._("Project Stats")}: Ctrl+T ${i18n._("or")} Cmd+T`);
+    messageLines.push("");
     messageLines.push(`${i18n._("Find and Replace")}: Ctrl+H ${i18n._("or")} Cmd+H`);
     messageLines.push("");
     messageLines.push(`${i18n._("Find")}: Ctrl+F ${i18n._("or")} Cmd+F`);
@@ -215,8 +217,6 @@ ipc.on("keyboard-shortcuts", (event, visible) => {
     messageLines.push(`${i18n._("Go to Anything")}: Ctrl+P ${i18n._("or")} Cmd+P`);
     messageLines.push("");
     messageLines.push(`${i18n._("Toggle Comment")}: Ctrl+/ ${i18n._("or")} Cmd+/`);
-    messageLines.push("");
-    messageLines.push(`${i18n._("Project Stats")}: Ctrl+T ${i18n._("or")} Cmd+T`);
     messageLines.push("");
     messageLines.push(`${i18n._("Add Multicursor Above")}: Ctrl+Alt+Up ${i18n._("or")} Ctrl+Option+Up`);
     messageLines.push("");
