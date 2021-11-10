@@ -1,4 +1,4 @@
-name: 'Inkly Build'
+name: 'Inky Build'
 
 defaults:
   run:
@@ -17,14 +17,14 @@ jobs:
       matrix:
         include:
           - os: macos-11
-            npmCmd: npm
+            npmPackages: electron-packager appdmg
             buildCmd: electron-packager app Inky --platform=darwin --arch=x64 --icon=resources/Icon.icns --extend-info=resources/info.plist --app-bundle-id=com.inkle.inky --prune --asar.unpackDir="main-process/ink" --ignore="inklecate_win.exe"
             createInstallerCmd: appdmg resources/appdmg.json ReleaseUpload/Inky_mac.dmg
 
           - os: windows-latest
-            npmCmd: call npm
-            buildCmd: call electron-packager app Inky --platform=win32  --arch=x64 --icon=resources/Icon1024.png.ico --prune --asar.unpackDir="main-process/ink" --ignore="inklecate_mac" --win32metadata.ProductName="Inky" --win32metadata.CompanyName="inkle Ltd" --win32metadata.FileDescription="Inky" --win32metadata.OriginalFilename="Inky" --win32metadata.InternalName="Inky"
-            createInstallerCmd: powershell Compress-Archive Inky-win32-x64 ReleaseUpload\Inky-win32-x64.zip 
+            npmPackages: electron-packager
+            buildCmd: electron-packager app Inky --platform=win32  --arch=x64 --icon=resources/Icon1024.png.ico --prune --asar.unpackDir="main-process/ink" --ignore="inklecate_mac" --win32metadata.ProductName="Inky" --win32metadata.CompanyName="inkle Ltd" --win32metadata.FileDescription="Inky" --win32metadata.OriginalFilename="Inky" --win32metadata.InternalName="Inky"
+            createInstallerCmd: 7z a -tzip ReleaseUpload/Inky-win32-x64.zip Inky-win32-x64
 
     steps:
       - name: Checkout Repo
@@ -37,17 +37,14 @@ jobs:
 
       - name: Install Dependencies
         run: |
-          ${{ matrix.npmCmd }} install -g \
-            electron-packager \
-            appdmg
+          npm install -g ${{ matrix.npmPackages }}
 
           cd app
-          ${{ matrix.npmCmd }} install
+          npm install
 
       - name: Build Icon
         if: matrix.os == 'macos-11'
         run: |
-          cd app
           ./resources/makeIcns.command
           
       - name: Build Package
