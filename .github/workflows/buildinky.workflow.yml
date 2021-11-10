@@ -37,12 +37,12 @@ jobs:
 
       - name: Install Dependencies
         run: |
-          ${{ npmcmd }} install -g \
+          ${{ npmCmd }} install -g \
             electron-packager \
             appdmg
 
           cd app
-          ${{ npmcmd }} install
+          ${{ npmCmd }} install
 
       - name: Build Icon
         if: matrix.os == 'macos-11'
