@@ -37,12 +37,12 @@ jobs:
 
       - name: Install Dependencies
         run: |
-          ${{ npmCmd }} install -g \
+          ${{ matrix.npmCmd }} install -g \
             electron-packager \
             appdmg
 
           cd app
-          ${{ npmCmd }} install
+          ${{ matrix.npmCmd }} install
 
       - name: Build Icon
         if: matrix.os == 'macos-11'
@@ -52,16 +52,16 @@ jobs:
           
       - name: Build Package
         run: |
-          ${{ buildCmd }}
+          ${{ matrix.buildCmd }}
 
       - name: Create Installer
         run: |
           mkdir ReleaseUpload
-          ${{ createInstallerCmd }}
+          ${{ matrix.createInstallerCmd }}
 
       - uses: actions/upload-artifact@v2
         with:
-          name: Build-${{ matrix.targetPlatform }}
+          name: Build-${{ matrix.os }}
           path: |
             ReleaseUpload/Inky_mac.dmg
             ReleaseUpload/Inky-win32-x64.zip
